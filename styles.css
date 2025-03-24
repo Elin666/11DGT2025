@@ -1,0 +1,79 @@
+body {
+/*    margin: auto;*/
+    background-color: rgba(236, 226, 120, 0.69);
+    
+}
+
+.wrapper{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "logo banner banner"
+        "navigation navigation navigation "
+        "main main side"
+        "footer footer footer";
+
+}
+
+.box{
+    border:solid 1px #000;
+    margin: 3px;
+    padding:20px;
+    border-radius: 20px;
+}
+
+.logo {
+    grid-area: logo;
+    /*width:100%/*/
+    /*height: =auto*/
+    background-image: url(images/smile-removebg-preview.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.banner {
+    grid-area: banner;
+    background-image: url(images/duck.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: whitesmoke
+}
+
+    
+@media (max-width: 55px) {
+    .banner {
+        background-position: top;
+    }
+}
+
+
+.navigation {
+    grid-area: navigation;
+    background-color: beige;
+    flex-wrap: nowrap;
+    
+
+    
+}
+
+.main {
+    grid-area: main;
+    background-color: beige
+}
+
+.side {
+    grid-area: side;
+    background-color: beige
+}
+
+.footer {
+    grid-area: footer;
+}
+.logo,.banner, .footer{
+    background-color: #8c5732;
+    
+}
+
+
+
