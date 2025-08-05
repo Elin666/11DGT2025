@@ -1,4 +1,6 @@
-# Version 1.1
+# Version 1.2
+# TODO: Fix the settings menu so that it does not freeze up.
+# Make the back button work.
 
 import pygame
 import time
@@ -8,6 +10,17 @@ import random
 pygame.init()  # Initialize all pygame modules
 pygame.font.init()  # Initialize the font module
 pygame.mixer.init()  # Initialize the mixer module for sound
+
+# Player settings
+PLAYER_VEL = 5
+PLAYER_WIDTH = 40
+PLAYER_HEIGHT = 60
+PLAYER_IMG = pygame.image.load("Pointer.png")
+PLAYER_IMG = pygame.transform.scale(PLAYER_IMG, (PLAYER_WIDTH, PLAYER_HEIGHT)) 
+
+# Background
+BG = pygame.image.load("Sun (start screen 2.0).png")  # Load the background image
+
 music_on = True  # Music toggle variable
 
 # Set up the display
@@ -18,8 +31,7 @@ pygame.display.set_caption("Sun Chaser")
 title = "Sun Chaser"
 title_font = pygame.font.SysFont("comicsans", 60)
 
-# Background
-BG = pygame.image.load("Sun (start screen 2.0).png")  # Load the background image
+
 def draw_bg():
     screen.blit(BG, (0, 0))  # Draw the background image
     # Render the title text
@@ -28,12 +40,8 @@ def draw_bg():
     screen.blit(title_surface, title_rect)
     # This is Pygame's way of drawing one surface(image/text) on to another(the main screen surface)
 
-# Player settings
-PLAYER_VEL = 5
-PLAYER_WIDTH = 40
-PLAYER_HEIGHT = 60
-PLAYER_IMG = pygame.image.load("Pointer.png")
-PLAYER_IMG = pygame.transform.scale(PLAYER_IMG, (PLAYER_WIDTH, PLAYER_HEIGHT)) 
+
+
 def draw_(player):
     screen.blit(PLAYER_IMG, (player.x, player.y))  # Draw the player image
 
@@ -52,9 +60,23 @@ def settings_menu():
     running = True # Cotrol the settings menu loop 
     show_how_to_play = False 
     show_more_info = False 
-    mosic_on = False
+    music_on = False
     option_font = pygame.font.SysFont("comicsans", 40)
     while running:
+        # Event Handling
+        for event in pygame.event.get():
+            #This iterates through 遍历  all the events in the event queue 队列
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                # Check if the back button is clicked
+                # If true: the settings menu will close and return to the main menu
+                
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if back_btn.collidepoint(event.pos):
+                        #print("Back button clicked")
+                    #Test if the click position(event.pos) is within the button's rectangle
+                        running = False
         screen.fill((30, 30, 30)) # background color
         font = pygame.font.SysFont("comicsans", 45)
         title = font.render("Settings", True, (255, 255, 0))
@@ -125,20 +147,7 @@ def settings_menu():
                 screen.blit(text, (screen.get_width()//2 - text.get_width()//2, y_offset))
                 y_offset += 40
 
-    # Event Handling
-    for event in pygame.event.get():
-        #This iterates through 遍历  all the events in the event queue 队列
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            # Check if the back button is clicked
-            # If true: the settings menu will close and return to the main menu
-            
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if back_btn.collidepoint(event.pos):
-                    print("Back button clicked")
-                #Test if the click position(event.pos) is within the button's rectangle
-                    running = False
+    
             
            
             
@@ -156,6 +165,7 @@ def main():
                 # Check if settings button is clicked
                 if settings_btn.collidepoint(mouse_pos):
                     settings_menu()
+            
         mouse_x, mouse_y = pygame.mouse.get_pos()
         player.x = mouse_x - PLAYER_WIDTH // 2
         player.y = mouse_y - PLAYER_HEIGHT // 2
